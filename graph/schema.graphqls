@@ -1,8 +1,8 @@
 type Story {
   by: String!
   descendants: Int!
-  id: ID!
-  kids: [ID!]
+  id: Int!
+  kids: [Int!]
   score: Int!
   time: Int!
   title: String!

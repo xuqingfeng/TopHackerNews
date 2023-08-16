@@ -6,14 +6,53 @@ package graph
 
 import (
 	"context"
-	"fmt"
+	"encoding/json"
+	"log"
+	"net/http"
+	"strconv"
 
 	"github.com/xuqingfeng/HackerNewsTopStories/graph/model"
 )
 
 // TopStories is the resolver for the topStories field.
 func (r *queryResolver) TopStories(ctx context.Context) ([]*model.Story, error) {
-	panic(fmt.Errorf("not implemented: TopStories - topStories"))
+	// panic(fmt.Errorf("not implemented: TopStories - topStories"))
+
+	// get all top stories
+	resp, err := http.Get("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty")
+	if err != nil {
+		log.Printf("err: %v", err)
+		return nil, err
+	}
+	if resp.StatusCode == http.StatusOK {
+		ids := new([]int)
+		err = json.NewDecoder(resp.Body).Decode(ids)
+		// log.Printf("ids: %v", ids)
+		if err != nil {
+			return nil, err
+		}
+		for i, id := range *ids {
+			// TODO: fix pagination
+			if i >= 5 {
+				break
+			}
+
+			// get every story
+			resp, err = http.Get("https://hacker-news.firebaseio.com/v0/item/" + strconv.Itoa(id) + ".json?print=pretty")
+			if err != nil {
+				log.Printf("err: %v", err)
+				return nil, err
+			}
+			s := new(model.Story)
+			err = json.NewDecoder(resp.Body).Decode(s)
+			if err != nil {
+				return nil, err
+			}
+			r.topStories = append(r.topStories, s)
+		}
+	}
+
+	return r.topStories, nil
 }
 
 // Query returns QueryResolver implementation.
