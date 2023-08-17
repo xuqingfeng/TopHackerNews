@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"sync"
 
 	"github.com/xuqingfeng/HackerNewsTopStories/graph/model"
 )
@@ -31,6 +32,8 @@ func (r *queryResolver) TopStories(ctx context.Context, offset *int, limit *int)
 		if err != nil {
 			return nil, err
 		}
+
+		var wg sync.WaitGroup
 		for i, id := range *ids {
 			if i < *offset {
 				continue
@@ -39,22 +42,31 @@ func (r *queryResolver) TopStories(ctx context.Context, offset *int, limit *int)
 				break
 			}
 
-			// get every story
-			resp, err = http.Get("https://hacker-news.firebaseio.com/v0/item/" + strconv.Itoa(id) + ".json?print=pretty")
-			if err != nil {
-				log.Printf("err: %v", err)
-				return nil, err
-			}
-			s := new(model.Story)
-			err = json.NewDecoder(resp.Body).Decode(s)
-			if err != nil {
-				return nil, err
-			}
-			r.topStories = append(r.topStories, s)
+			// get every story concurrently
+			wg.Add(1)
+			go fetchNewsDetail(id, r, &wg)
 		}
+		wg.Wait()
 	}
 
 	return r.topStories, nil
+}
+func fetchNewsDetail(id int, r *queryResolver, wg *sync.WaitGroup) error {
+
+	resp, err := http.Get("https://hacker-news.firebaseio.com/v0/item/" + strconv.Itoa(id) + ".json?print=pretty")
+	if err != nil {
+		log.Printf("err: %v", err)
+		return err
+	}
+	s := new(model.Story)
+	err = json.NewDecoder(resp.Body).Decode(s)
+	if err != nil {
+		return err
+	}
+	r.topStories = append(r.topStories, s)
+	wg.Done()
+
+	return nil
 }
 
 // Query returns QueryResolver implementation.
