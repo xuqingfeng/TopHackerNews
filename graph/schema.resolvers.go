@@ -17,7 +17,8 @@ import (
 
 // TopStories is the resolver for the topStories field.
 func (r *queryResolver) TopStories(ctx context.Context, offset *int, limit *int) ([]*model.Story, error) {
-	// panic(fmt.Errorf("not implemented: TopStories - topStories"))
+
+	r.topStories = make([]*model.Story, 0)
 
 	// get all top stories
 	resp, err := http.Get("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty")
