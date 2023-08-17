@@ -11,5 +11,5 @@ type Story {
 }
 
 type Query {
-  topStories: [Story!]!
+  topStories(offset: Int, limit: Int): [Story!]!
 }

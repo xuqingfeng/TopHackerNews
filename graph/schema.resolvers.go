@@ -15,7 +15,7 @@ import (
 )
 
 // TopStories is the resolver for the topStories field.
-func (r *queryResolver) TopStories(ctx context.Context) ([]*model.Story, error) {
+func (r *queryResolver) TopStories(ctx context.Context, offset *int, limit *int) ([]*model.Story, error) {
 	// panic(fmt.Errorf("not implemented: TopStories - topStories"))
 
 	// get all top stories
@@ -32,8 +32,10 @@ func (r *queryResolver) TopStories(ctx context.Context) ([]*model.Story, error) 
 			return nil, err
 		}
 		for i, id := range *ids {
-			// TODO: fix pagination
-			if i >= 5 {
+			if i < *offset {
+				continue
+			}
+			if i >= *offset+*limit {
 				break
 			}
 
