@@ -20,7 +20,7 @@ func (r *queryResolver) TopStories(ctx context.Context, offset *int, limit *int)
 
 	r.topStories = make([]*model.Story, 0)
 
-	// get all top stories
+	// get all top stories' ids
 	resp, err := http.Get("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty")
 	if err != nil {
 		log.Printf("err: %v", err)
@@ -42,8 +42,7 @@ func (r *queryResolver) TopStories(ctx context.Context, offset *int, limit *int)
 			if i >= *offset+*limit {
 				break
 			}
-
-			// get every story concurrently
+			// get every story's detail concurrently
 			wg.Add(1)
 			go fetchNewsDetail(id, r, &wg)
 		}
