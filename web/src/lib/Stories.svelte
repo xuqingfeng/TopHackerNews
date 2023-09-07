@@ -6,6 +6,7 @@
         id
         kids
         score
+        time
         title
         type
         url
@@ -26,9 +27,27 @@
 </script>
 
 <div>
+  <!-- {#if $stories.loading}
+  <div></div>
+  {:else if $stories.error}
+  <div>Error!</div>
+  {:else if $stories} -->
   <ul>
     {#each stories as story (story.id)}
-      <li>{story.title} - {story.url}</li>
+      <li>
+        <div>
+          <p>
+            {story.title} - <a class="" href={story.url}>{story.url}</a>
+          </p>
+        </div>
+        <div>
+          <p>
+            By: {story.by}
+            <time datetime="">Time: {story.time}</time>
+          </p>
+        </div>
+      </li>
     {/each}
   </ul>
+  <!-- {/if} -->
 </div>
