@@ -11,15 +11,13 @@ import (
 	"log"
 	"net/http"
 	"slices"
-	"strconv"
 	"sync"
 
-	"github.com/xuqingfeng/HackerNewsTopStories/graph/model"
+	"github.com/xuqingfeng/TopHackerNews/graph/model"
 )
 
 // TopStories is the resolver for the topStories field.
 func (r *queryResolver) TopStories(ctx context.Context, offset *int, limit *int) ([]*model.Story, error) {
-
 	r.topStories = make([]*model.Story, 0)
 
 	// get all top stories' ids
@@ -46,7 +44,7 @@ func (r *queryResolver) TopStories(ctx context.Context, offset *int, limit *int)
 			}
 			// get every story's detail concurrently
 			wg.Add(1)
-			go fetchNewsDetail(id, r, &wg)
+			go fetchStoryDetail(id, r, &wg)
 		}
 		wg.Wait()
 	}
@@ -56,23 +54,6 @@ func (r *queryResolver) TopStories(ctx context.Context, offset *int, limit *int)
 	})
 
 	return r.topStories, nil
-}
-func fetchNewsDetail(id int, r *queryResolver, wg *sync.WaitGroup) error {
-
-	resp, err := http.Get("https://hacker-news.firebaseio.com/v0/item/" + strconv.Itoa(id) + ".json?print=pretty")
-	if err != nil {
-		log.Printf("err: %v", err)
-		return err
-	}
-	s := new(model.Story)
-	err = json.NewDecoder(resp.Body).Decode(s)
-	if err != nil {
-		return err
-	}
-	r.topStories = append(r.topStories, s)
-	wg.Done()
-
-	return nil
 }
 
 // Query returns QueryResolver implementation.

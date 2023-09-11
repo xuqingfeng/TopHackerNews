@@ -1,6 +1,6 @@
 package graph
 
-import "github.com/xuqingfeng/HackerNewsTopStories/graph/model"
+import "github.com/xuqingfeng/TopHackerNews/graph/model"
 
 // This file will not be regenerated automatically.
 //

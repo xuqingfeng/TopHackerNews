@@ -1,4 +1,4 @@
-module github.com/xuqingfeng/HackerNewsTopStories
+module github.com/xuqingfeng/TopHackerNews
 
 go 1.20
 

@@ -16,7 +16,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/introspection"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
-	"github.com/xuqingfeng/HackerNewsTopStories/graph/model"
+	"github.com/xuqingfeng/TopHackerNews/graph/model"
 )
 
 // region    ************************** generated!.gotpl **************************
@@ -368,7 +368,7 @@ func (ec *executionContext) _Query_topStories(ctx context.Context, field graphql
 	}
 	res := resTmp.([]*model.Story)
 	fc.Result = res
-	return ec.marshalNStory2ᚕᚖgithubᚗcomᚋxuqingfengᚋHackerNewsTopStoriesᚋgraphᚋmodelᚐStoryᚄ(ctx, field.Selections, res)
+	return ec.marshalNStory2ᚕᚖgithubᚗcomᚋxuqingfengᚋTopHackerNewsᚋgraphᚋmodelᚐStoryᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_topStories(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -3222,7 +3222,7 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 	return res
 }
 
-func (ec *executionContext) marshalNStory2ᚕᚖgithubᚗcomᚋxuqingfengᚋHackerNewsTopStoriesᚋgraphᚋmodelᚐStoryᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Story) graphql.Marshaler {
+func (ec *executionContext) marshalNStory2ᚕᚖgithubᚗcomᚋxuqingfengᚋTopHackerNewsᚋgraphᚋmodelᚐStoryᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Story) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -3246,7 +3246,7 @@ func (ec *executionContext) marshalNStory2ᚕᚖgithubᚗcomᚋxuqingfengᚋHack
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNStory2ᚖgithubᚗcomᚋxuqingfengᚋHackerNewsTopStoriesᚋgraphᚋmodelᚐStory(ctx, sel, v[i])
+			ret[i] = ec.marshalNStory2ᚖgithubᚗcomᚋxuqingfengᚋTopHackerNewsᚋgraphᚋmodelᚐStory(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -3266,7 +3266,7 @@ func (ec *executionContext) marshalNStory2ᚕᚖgithubᚗcomᚋxuqingfengᚋHack
 	return ret
 }
 
-func (ec *executionContext) marshalNStory2ᚖgithubᚗcomᚋxuqingfengᚋHackerNewsTopStoriesᚋgraphᚋmodelᚐStory(ctx context.Context, sel ast.SelectionSet, v *model.Story) graphql.Marshaler {
+func (ec *executionContext) marshalNStory2ᚖgithubᚗcomᚋxuqingfengᚋTopHackerNewsᚋgraphᚋmodelᚐStory(ctx context.Context, sel ast.SelectionSet, v *model.Story) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
