@@ -2,16 +2,21 @@
   import { ApolloClient, InMemoryCache, gql } from "@apollo/client/core";
 
   let stories = [];
+  let currentPage = 1;
+  let limit = 10;
+  let offset = (currentPage - 1) * limit;
 
-  const client = new ApolloClient({
-    uri: "http://localhost:8080/graphql",
-    cache: new InMemoryCache(),
-  });
-  client
-    .query({
-      query: gql`
+  function fetchStories() {
+    stories = [];
+    const client = new ApolloClient({
+      uri: "http://localhost:8080/graphql",
+      cache: new InMemoryCache(),
+    });
+    client
+      .query({
+        query: gql`
         query topStories {
-          topStories(offset: 0, limit: 10) {
+          topStories(offset: ${offset}, limit: ${limit}) {
             id
             kids
             score
@@ -23,10 +28,23 @@
           }
         }
       `,
-    })
-    .then((data) => {
-      stories = data.data.topStories;
-    });
+      })
+      .then((data) => {
+        stories = data.data.topStories;
+      });
+  }
+
+  fetchStories();
+
+  function next() {
+    currentPage += 1;
+    fetchStories();
+  }
+
+  function prev() {
+    currentPage -= 1;
+    fetchStories();
+  }
 </script>
 
 <div>
@@ -53,5 +71,14 @@
         </li>
       {/each}
     </ul>
+    <div class="grid -right">
+      <div class="btn-group">
+        {#if currentPage != 1}
+          <button class="btn btn-primary btn-ghost" on:click={prev}>prev</button>
+        {/if}
+        <button class="btn btn-info btn-ghost">{currentPage}</button>
+        <button class="btn btn-primary btn-ghost" on:click={next}>next</button>
+      </div>
+    </div>
   {/if}
 </div>
