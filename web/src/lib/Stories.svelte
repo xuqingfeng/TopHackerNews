@@ -8,6 +8,7 @@
 
   function fetchStories() {
     stories = [];
+    offset = (currentPage - 1) * limit;
     const client = new ApolloClient({
       uri: "http://localhost:8080/graphql",
       cache: new InMemoryCache(),
@@ -46,7 +47,7 @@
     fetchStories();
   }
 
-  function convertToDateTime(time){
+  function convertToDateTime(time) {
     return new Date(time).toLocaleString;
   }
 </script>
@@ -71,8 +72,7 @@
             <p>
               By: {story.by} |
               <!-- TODO: convert to datetime -->
-              <time datetime={story.time}>Time: {story.time}</time> |
-              Score: {story.score}
+              <time datetime={story.time}>Time: {story.time}</time> | Score: {story.score}
             </p>
           </div>
         </li>
