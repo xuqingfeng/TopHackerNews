@@ -45,6 +45,10 @@
     currentPage -= 1;
     fetchStories();
   }
+
+  function convertToDateTime(time){
+    return new Date(time).toLocaleString;
+  }
 </script>
 
 <div>
@@ -59,13 +63,16 @@
         <li>
           <div>
             <p>
-              {story.title} - <a href={story.url} target="_blank">{story.url}</a>
+              {story.title} -
+              <a href={story.url} target="_blank">{story.url}</a>
             </p>
           </div>
           <div>
             <p>
-              By: {story.by}
-              <time datetime="">Time: {story.time}</time>
+              By: {story.by} |
+              <!-- TODO: convert to datetime -->
+              <time datetime={story.time}>Time: {story.time}</time> |
+              Score: {story.score}
             </p>
           </div>
         </li>
