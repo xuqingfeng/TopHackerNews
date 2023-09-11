@@ -1,19 +1,20 @@
 ## TopHackerNews
 
-list top stories of HackerNews via it's open [API](https://github.com/HackerNews/API)
+List top stories on HackerNews via it's open [API](https://github.com/HackerNews/API) .
 
 ### How to run locally
 
 ```
-# run backend
+# start backend
 go run server.go
 
-# run frontend
+# start frontend
 cd web
+npm install
 npm run dev
 ```
 
-### Tech stack
+### Tech Stack
 
 - golang
 - svelte
