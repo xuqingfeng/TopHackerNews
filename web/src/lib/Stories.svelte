@@ -59,7 +59,7 @@
         <li>
           <div>
             <p>
-              {story.title} - <a class="" href={story.url}>{story.url}</a>
+              {story.title} - <a href={story.url} target="_blank">{story.url}</a>
             </p>
           </div>
           <div>
@@ -76,7 +76,7 @@
         {#if currentPage != 1}
           <button class="btn btn-primary btn-ghost" on:click={prev}>prev</button>
         {/if}
-        <button class="btn btn-info btn-ghost">{currentPage}</button>
+        <button class="btn btn-default btn-ghost disabled">{currentPage}</button>
         <button class="btn btn-primary btn-ghost" on:click={next}>next</button>
       </div>
     </div>
