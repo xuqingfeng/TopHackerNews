@@ -1,6 +1,8 @@
 <script>
   import { ApolloClient, InMemoryCache, gql } from "@apollo/client/core";
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   let stories = [];
   let currentPage = 1;
   let limit = 10;
@@ -10,7 +12,7 @@
     stories = [];
     offset = (currentPage - 1) * limit;
     const client = new ApolloClient({
-      uri: "http://localhost:8080/graphql",
+      uri: `${API_URL}/graphql`,
       cache: new InMemoryCache(),
     });
     client
@@ -81,9 +83,11 @@
     <div class="grid -right">
       <div class="btn-group">
         {#if currentPage != 1}
-          <button class="btn btn-primary btn-ghost" on:click={prev}>prev</button>
+          <button class="btn btn-primary btn-ghost" on:click={prev}>prev</button
+          >
         {/if}
-        <button class="btn btn-default btn-ghost disabled">{currentPage}</button>
+        <button class="btn btn-default btn-ghost disabled">{currentPage}</button
+        >
         <button class="btn btn-primary btn-ghost" on:click={next}>next</button>
       </div>
     </div>
