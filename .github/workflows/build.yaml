@@ -1,4 +1,4 @@
-name: Build THN API & Web docker images
+name: Build thn-api & thn-web docker images
 
 on:
   push:
