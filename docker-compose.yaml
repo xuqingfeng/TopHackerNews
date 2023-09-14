@@ -1,4 +1,4 @@
-service:
+services:
   thn-api:
     image: ghcr.io/xuqingfeng/thn-api:latest
     ports:
