@@ -7,11 +7,12 @@ COPY . .
 RUN go mod download && \
     go build -o thn-api server.go
 
-FROM alpine
+FROM alpine:3.18
 
 WORKDIR /app
 
-RUN apk update && apk add ca-certificates
+# https://stackoverflow.com/questions/66963068/docker-alpine-executable-binary-not-found-even-if-in-path
+RUN apk update && apk add libc6-compat ca-certificates
 
 COPY --from=builder /src/thn-api /app/thn-api
 
