@@ -1,0 +1,18 @@
+service:
+  thn-api:
+    image: ghcr.io/xuqingfeng/thn-api:latest
+    ports:
+      - 8080:8080
+    networks:
+      - thn
+  thn-web:
+    image: ghcr.io/xuqingfeng/thn-web:latest
+    ports:
+      - 8081:80
+    depends_on:
+      - thn-api
+    networks:
+      - thn
+networks:
+  thn:
+    driver: bridge
