@@ -1,18 +1,15 @@
+version: "3"
+
 services:
   thn-api:
     image: ghcr.io/xuqingfeng/thn-api:latest
-    ports:
-      - 8080:8080
-    networks:
-      - thn
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.thn-api.rule=Path(`/graphql`)"
   thn-web:
     image: ghcr.io/xuqingfeng/thn-web:latest
-    ports:
-      - 8081:80
     depends_on:
       - thn-api
-    networks:
-      - thn
-networks:
-  thn:
-    driver: bridge
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.thn-web.rule=Path(`/`)"
