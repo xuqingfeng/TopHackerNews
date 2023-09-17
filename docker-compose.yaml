@@ -3,6 +3,8 @@ version: "3"
 services:
   thn-api:
     image: ghcr.io/xuqingfeng/thn-api:latest
+    networks:
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.thn-api.rule=Path(`/graphql`)"
@@ -10,6 +12,13 @@ services:
     image: ghcr.io/xuqingfeng/thn-web:latest
     depends_on:
       - thn-api
+    networks:
+      - traefik
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.thn-web.rule=Path(`/`)"
+      - "traefik.http.routers.thn-web.rule=PathPrefix(`/`)"
+
+networks:
+  traefik:
+    name: traefik_default
+    external: true
