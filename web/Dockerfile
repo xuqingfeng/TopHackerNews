@@ -6,7 +6,8 @@ COPY package* ./
 
 RUN npm ci
 
-COPY . .
+# for commit hash
+COPY ../.git . ./
 
 RUN npm run build
 
