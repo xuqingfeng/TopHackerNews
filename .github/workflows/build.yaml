@@ -15,6 +15,9 @@ jobs:
       - name: ls
         run: ls -alth
 
+      - name: Run git cmd
+        run: git rev-parse --short HEAD
+
       # - name: Setup Docker Buildx
       #   uses: docker/setup-buildx-action@v2
 
