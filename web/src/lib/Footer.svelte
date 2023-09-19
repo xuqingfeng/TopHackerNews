@@ -3,7 +3,6 @@
 </script>
 
 <div>
-  <hr />
   <footer class="footer">
     <a
       href="https://github.com/xuqingfeng/TopHackerNews/commit/{COMMIT_HASH}"
