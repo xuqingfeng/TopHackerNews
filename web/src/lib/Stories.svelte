@@ -2,6 +2,7 @@
   import { ApolloClient, InMemoryCache, gql } from "@apollo/client/core";
 
   const API_URL = import.meta.env.VITE_API_URL;
+  const COMMIT_HASH = process.env.COMMIT_HASH;
 
   let stories = [];
   let currentPage = 1;
