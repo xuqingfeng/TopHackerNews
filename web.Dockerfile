@@ -6,7 +6,7 @@ COPY web/package* ./
 
 RUN npm ci
 
-COPY . /src
+COPY . /src/
 
 RUN npm run build
 
