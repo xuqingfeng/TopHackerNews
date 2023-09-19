@@ -12,34 +12,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: ls
-        run: ls -alth
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-      - name: Run git cmd
-        run: git rev-parse --short HEAD
+      - name: Login to Github Container Regisry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
-      # - name: Setup Docker Buildx
-      #   uses: docker/setup-buildx-action@v2
+      - name: Build and Push thn-api
+        uses: docker/build-push-action@v4
+        with:
+          # context is needed - https://gitea.com/gitea/act_runner/issues/122
+          context: .
+          file: api.Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/thn-api:latest
 
-      # - name: Login to Github Container Regisry
-      #   uses: docker/login-action@v2
-      #   with:
-      #     registry: ghcr.io
-      #     username: ${{ github.repository_owner }}
-      #     password: ${{ secrets.GHCR_TOKEN }}
-
-      # - name: Build and Push thn-api
-      #   uses: docker/build-push-action@v4
-      #   with:
-      #     file: api.Dockerfile
-      #     platforms: linux/amd64
-      #     push: true
-      #     tags: ghcr.io/${{ github.repository_owner }}/thn-api:latest
-
-      # - name: Build and Push thn-web
-      #   uses: docker/build-push-action@v4
-      #   with:
-      #     file: web.Dockerfile
-      #     platforms: linux/amd64
-      #     push: true
-      #     tags: ghcr.io/${{ github.repository_owner }}/thn-web:latest
+      - name: Build and Push thn-web
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: web.Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/thn-web:latest
