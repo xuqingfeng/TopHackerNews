@@ -2,14 +2,14 @@ version: "3"
 
 services:
   thn-api:
-    image: ghcr.io/xuqingfeng/thn-api:latest
+    image: xuqingfeng/thn-api:latest
     networks:
       - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.thn-api.rule=Path(`/graphql`)"
   thn-web:
-    image: ghcr.io/xuqingfeng/thn-web:latest
+    image: xuqingfeng/thn-web:latest
     depends_on:
       - thn-api
     networks:
