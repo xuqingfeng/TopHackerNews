@@ -9,6 +9,8 @@ RUN go mod download && \
 
 FROM alpine:3.18
 
+LABEL org.opencontainers.image.source https://github.com/xuqingfeng/TopHackerNews
+
 WORKDIR /app
 
 # https://stackoverflow.com/questions/66963068/docker-alpine-executable-binary-not-found-even-if-in-path

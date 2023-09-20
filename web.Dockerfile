@@ -12,4 +12,6 @@ RUN npm run build
 
 FROM nginx:alpine
 
+LABEL org.opencontainers.image.source https://github.com/xuqingfeng/TopHackerNews
+
 COPY --from=builder /src/web/dist/ /usr/share/nginx/html/
