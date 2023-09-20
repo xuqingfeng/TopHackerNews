@@ -6,7 +6,7 @@
 
   let stories = [];
   let currentPage = 1;
-  let limit = 10;
+  let limit = 15;
   let offset = (currentPage - 1) * limit;
 
   function fetchStories() {
@@ -74,8 +74,9 @@
           <div>
             <p>
               By: <a href="https://news.ycombinator.com/user?id={story.by}" target="_blank">{story.by} ↗</a> |
+              <a href="https://news.ycombinator.com/item?id={story.id}" target="_blank">comment ↗</a> |
               <!-- TODO: convert to datetime -->
-              <time datetime={story.time}>Time: {story.time}</time> | Score: {story.score} | <a href="https://news.ycombinator.com/item?id={story.id}" target="_blank">source ↗</a>
+              <time datetime={story.time}>Time: {story.time}</time> | Score: {story.score}
             </p>
           </div>
         </li>
