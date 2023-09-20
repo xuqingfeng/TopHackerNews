@@ -74,9 +74,10 @@
           <div>
             <p>
               By: <a href="https://news.ycombinator.com/user?id={story.by}" target="_blank">{story.by} ↗</a> |
-              <a href="https://news.ycombinator.com/item?id={story.id}" target="_blank">comment ↗</a> |
+              <a href="https://news.ycombinator.com/item?id={story.id}" target="_blank">comments ↗</a> |
               <!-- TODO: convert to datetime -->
-              <time datetime={story.time}>Time: {story.time}</time> | Score: {story.score}
+              <time datetime={story.time}>Time: {story.time}</time>
+              <!-- Score: {story.score} -->
             </p>
           </div>
         </li>
