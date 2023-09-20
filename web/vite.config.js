@@ -8,5 +8,8 @@ export default defineConfig({
   define: {
     "process.env.COMMIT_HASH": JSON.stringify(commitHash),
   },
+  server: {
+    port: 3000,
+  },
   plugins: [svelte()],
 });
