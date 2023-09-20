@@ -75,7 +75,7 @@
             <p>
               By: {story.by} |
               <!-- TODO: convert to datetime -->
-              <time datetime={story.time}>Time: {story.time}</time> | Score: {story.score}
+              <time datetime={story.time}>Time: {story.time}</time> | Score: {story.score} | <a href="https://news.ycombinator.com/item?id={story.id}" target="_blank">source ↗</a>
             </p>
           </div>
         </li>
