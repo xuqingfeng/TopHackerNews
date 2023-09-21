@@ -2,7 +2,6 @@
   import { ApolloClient, InMemoryCache, gql } from "@apollo/client/core";
 
   const API_URL = import.meta.env.VITE_API_URL;
-  const COMMIT_HASH = process.env.COMMIT_HASH;
 
   let stories = [];
   let currentPage = 1;
@@ -51,7 +50,7 @@
   }
 
   function convertToDateTime(time) {
-    return new Date(time).toLocaleString;
+    return new Date(time * 1000).toLocaleString();
   }
 </script>
 
@@ -77,7 +76,6 @@
               <a href="https://news.ycombinator.com/item?id={story.id}" target="_blank">comments ↗</a> |
               <!-- TODO: convert to datetime -->
               <time datetime={story.time}>Time: {story.time}</time>
-              <!-- Score: {story.score} -->
             </p>
           </div>
         </li>
