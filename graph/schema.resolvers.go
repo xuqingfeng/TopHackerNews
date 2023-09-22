@@ -16,12 +16,15 @@ import (
 	"github.com/xuqingfeng/TopHackerNews/graph/model"
 )
 
+const HN_TOPSTORIES_API = "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
+
 // TopStories is the resolver for the topStories field.
 func (r *queryResolver) TopStories(ctx context.Context, offset *int, limit *int) ([]*model.Story, error) {
 	r.topStories = make([]*model.Story, 0)
 
 	// get all top stories' ids
-	resp, err := http.Get("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty")
+	resp, err := http.Get(HN_TOPSTORIES_API)
+	log.Printf("fetching stories, offset:%d limit:%d", *offset, *limit)
 	if err != nil {
 		log.Printf("err: %v", err)
 		return nil, err
