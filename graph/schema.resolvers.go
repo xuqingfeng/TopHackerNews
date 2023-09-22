@@ -24,7 +24,7 @@ func (r *queryResolver) TopStories(ctx context.Context, offset *int, limit *int)
 
 	// get all top stories' ids
 	resp, err := http.Get(HN_TOPSTORIES_API)
-	log.Printf("fetching stories, offset:%d limit:%d", *offset, *limit)
+	log.Printf("fetching topstories, offset:%d limit:%d", *offset, *limit)
 	if err != nil {
 		log.Printf("err: %v", err)
 		return nil, err
