@@ -14,9 +14,12 @@ LABEL org.opencontainers.image.source https://github.com/xuqingfeng/TopHackerNew
 WORKDIR /app
 
 # https://stackoverflow.com/questions/66963068/docker-alpine-executable-binary-not-found-even-if-in-path
-RUN apk update && apk add libc6-compat ca-certificates
+RUN apk update && apk add curl libc6-compat ca-certificates
 
 COPY --from=builder /src/thn-api /app/thn-api
+
+HEALTHCHECK --interval=2m --timeout=5s --start-period=5s \
+    CMD curl -f http://127.0.0.1:8080/ || exit 1
 
 EXPOSE 8080
 
