@@ -9,6 +9,11 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.thn-api.rule=Path(`/graphql`)"
     restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 10M
+        max-file: "5"
   thn-web:
     image: xuqingfeng/thn-web:latest
     depends_on:
@@ -19,6 +24,11 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.thn-web.rule=PathPrefix(`/`)"
     restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 10M
+        max-file: "5"
 
 networks:
   traefik:

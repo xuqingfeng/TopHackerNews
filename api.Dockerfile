@@ -2,10 +2,13 @@ FROM golang:1.21 as builder
 
 WORKDIR /src
 
+COPY go.* ./
+
+RUN go mod download
+
 COPY . .
 
-RUN go mod download && \
-    go build -o thn-api server.go
+RUN go build -o thn-api server.go
 
 FROM alpine:3.18
 
@@ -18,7 +21,8 @@ RUN apk update && apk add curl libc6-compat ca-certificates
 
 COPY --from=builder /src/thn-api /app/thn-api
 
-HEALTHCHECK --interval=2m --timeout=5s --start-period=5s \
+# TODO: reduce downtime after docker 25.0.0 - https://github.com/moby/moby/issues/33410
+HEALTHCHECK --interval=1m --timeout=5s \
     CMD curl -f http://127.0.0.1:8080/ || exit 1
 
 EXPOSE 8080
