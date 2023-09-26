@@ -8,12 +8,16 @@
   let limit = 15;
   let offset = (currentPage - 1) * limit;
 
+  const cache = new InMemoryCache({
+    resultCacheMaxSize: 1000
+  });
+
   function fetchStories() {
     stories = [];
     offset = (currentPage - 1) * limit;
     const client = new ApolloClient({
       uri: `${API_URL}/graphql`,
-      cache: new InMemoryCache(),
+      cache: cache,
     });
     client
       .query({
