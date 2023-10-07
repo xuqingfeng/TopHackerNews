@@ -67,30 +67,32 @@
   {:else}
     <ul>
       {#each stories as story (story.id)}
-        <li>
-          <div>
-            <p>
-              {story.title} -
-              <a href={story.url} target="_blank">{story.url}</a>
-            </p>
-          </div>
-          <div>
-            <p>
-              By: <a
-                href="https://news.ycombinator.com/user?id={story.by}"
-                target="_blank">{story.by} ↗</a
-              >
-              |
-              <a
-                href="https://news.ycombinator.com/item?id={story.id}"
-                target="_blank">comments ↗</a
-              >
-              |
-              <!-- TODO: convert to datetime -->
-              <time datetime={story.time}>Time: {story.time}</time>
-            </p>
-          </div>
-        </li>
+        {#if story.type !== "job"}
+          <li>
+            <div>
+              <p>
+                {story.title} -
+                <a href={story.url} target="_blank">{story.url}</a>
+              </p>
+            </div>
+            <div>
+              <p>
+                By: <a
+                  href="https://news.ycombinator.com/user?id={story.by}"
+                  target="_blank">{story.by} ↗</a
+                >
+                |
+                <a
+                  href="https://news.ycombinator.com/item?id={story.id}"
+                  target="_blank">comments ↗</a
+                >
+                |
+                <!-- TODO: convert to datetime -->
+                <time datetime={story.time}>Time: {story.time}</time>
+              </p>
+            </div>
+          </li>
+        {/if}
       {/each}
     </ul>
     <div class="btn-group thn-btn">
