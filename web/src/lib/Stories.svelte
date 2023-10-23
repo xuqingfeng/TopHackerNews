@@ -87,8 +87,7 @@
                   target="_blank">comments ↗</a
                 >
                 |
-                <!-- TODO: convert to datetime -->
-                <time datetime={story.time}>Time: {story.time}</time>
+                <time datetime={story.time}>Time: {convertToDateTime(story.time)}</time>
               </p>
             </div>
           </li>
