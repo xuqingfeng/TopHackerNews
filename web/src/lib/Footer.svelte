@@ -1,7 +1,6 @@
 <script>
   const COMMIT_HASH = process.env.COMMIT_HASH;
 </script>
-
 <div>
   <footer class="footer">
     <a
