@@ -5,34 +5,34 @@
   function changeTheme(theme) {
     switch (theme) {
       case "light":
-        document.getElementById("body").classList.remove("dark");
-        document.getElementById("body").classList.remove("dark-grey");
-        document.getElementById("body").classList.remove("solarized-dark");
-        document.getElementById("body").classList.remove("standard");
+        document.body.classList.remove("dark");
+        document.body.classList.remove("dark-grey");
+        document.body.classList.remove("solarized-dark");
+        document.body.classList.remove("standard");
         break;
       case "dark":
-        document.getElementById("body").classList.add("dark");
-        document.getElementById("body").classList.remove("dark-grey");
-        document.getElementById("body").classList.remove("solarized-dark");
-        document.getElementById("body").classList.remove("standard");
+        document.body.classList.add("dark");
+        document.body.classList.remove("dark-grey");
+        document.body.classList.remove("solarized-dark");
+        document.body.classList.remove("standard");
         break;
       case "dark-grey":
-        document.getElementById("body").classList.add("dark-grey");
-        document.getElementById("body").classList.remove("dark");
-        document.getElementById("body").classList.remove("solarized-dark");
-        document.getElementById("body").classList.remove("standard");
+        document.body.classList.add("dark-grey");
+        document.body.classList.remove("dark");
+        document.body.classList.remove("solarized-dark");
+        document.body.classList.remove("standard");
         break;
       case "solarized-dark":
-        document.getElementById("body").classList.add("solarized-dark");
-        document.getElementById("body").classList.remove("dark");
-        document.getElementById("body").classList.remove("dark-grey");
-        document.getElementById("body").classList.remove("standard");
+        document.body.classList.add("solarized-dark");
+        document.body.classList.remove("dark");
+        document.body.classList.remove("dark-grey");
+        document.body.classList.remove("standard");
         break;
       default:
-        document.getElementById("body").classList.remove("dark");
-        document.getElementById("body").classList.remove("dark-grey");
-        document.getElementById("body").classList.remove("solarized-dark");
-        document.getElementById("body").classList.remove("standard");
+        document.body.classList.remove("dark");
+        document.body.classList.remove("dark-grey");
+        document.body.classList.remove("solarized-dark");
+        document.body.classList.remove("standard");
     }
   }
 </script>
