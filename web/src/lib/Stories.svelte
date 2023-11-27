@@ -71,8 +71,7 @@
           <li>
             <div>
               <p>
-                {story.title} -
-                <a href={story.url} target="_blank">{story.url}</a>
+                {story.title}{#if story.url }: <a href={story.url} target="_blank">{story.url}</a>{/if}
               </p>
             </div>
             <div>
