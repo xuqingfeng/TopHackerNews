@@ -1,6 +1,8 @@
 ## TopHackerNews
 
-List top stories on HackerNews via it's open [API](https://github.com/HackerNews/API) .
+> https://thn.helldivers.cn
+
+List top stories of HackerNews via it's open [API](https://github.com/HackerNews/API) .
 
 ### How to run locally
 
@@ -20,6 +22,6 @@ open http://localhost:3000
 
 ### Tech Stack
 
-- golang
-- svelte
-- graphql
+- Golang
+- Svelte
+- Graphql
