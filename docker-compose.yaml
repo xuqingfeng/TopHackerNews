@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   thn-api:
     image: xuqingfeng/thn-api:latest
