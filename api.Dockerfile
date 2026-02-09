@@ -1,4 +1,4 @@
-FROM golang:1.21 as builder
+FROM golang:1.25 as builder
 
 WORKDIR /src
 
@@ -10,7 +10,7 @@ COPY . .
 
 RUN go build -o thn-api server.go
 
-FROM alpine:3.18
+FROM alpine:3.23
 
 LABEL org.opencontainers.image.source https://github.com/xuqingfeng/TopHackerNews
 
