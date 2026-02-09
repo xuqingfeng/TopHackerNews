@@ -1,5 +1,5 @@
 <script>
-  import { ApolloClient, InMemoryCache, gql } from "@apollo/client/core";
+  import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client/core";
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -16,7 +16,9 @@
     stories = [];
     offset = (currentPage - 1) * limit;
     const client = new ApolloClient({
-      uri: `${API_URL}/graphql`,
+      link: new HttpLink({
+        uri: `${API_URL}/graphql`,
+      }),
       cache: cache,
     });
     client
@@ -61,7 +63,7 @@
 <div>
   {#if stories.length == 0}
     <div class="alert alert-info">
-      <span class="loading" />
+      <span class="loading"></span>
       Loading...
     </div>
   {:else}
