@@ -3,7 +3,7 @@
 </script>
 <div>
   <footer class="footer">
-    <a
+    Version: <a
       href="https://github.com/xuqingfeng/TopHackerNews/commit/{COMMIT_HASH}"
       target="_blank">{COMMIT_HASH}</a
     >
