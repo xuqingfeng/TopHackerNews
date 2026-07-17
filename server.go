@@ -33,7 +33,14 @@ func main() {
 		}).Handler)
 	}
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
-	router.Handle("/", playground.Handler("GraphQL playground", "/graphql"))
+	if appEnv == "local" {
+		router.Handle("/", playground.Handler("GraphQL playground", "/graphql"))
+	} else {
+		router.Get("/", func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte("ok"))
+		})
+	}
 	router.Handle("/graphql", srv)
 
 	log.Printf("api serves on :%s/graphql", port)

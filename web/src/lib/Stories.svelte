@@ -4,24 +4,27 @@
 
   const API_URL = import.meta.env.VITE_API_URL;
 
+  const client = new ApolloClient({
+    link: new HttpLink({
+      uri: `${API_URL}/graphql`,
+    }),
+    cache: new InMemoryCache({
+      resultCacheMaxSize: 1000,
+    }),
+  });
+
   let stories = [];
   let currentPage = 1;
   let limit = 15;
-  let offset = (currentPage - 1) * limit;
-
-  const cache = new InMemoryCache({
-    resultCacheMaxSize: 1000,
-  });
+  let loading = true;
+  let error = null;
+  let hasNextPage = true;
 
   function fetchStories() {
-    stories = [];
-    offset = (currentPage - 1) * limit;
-    const client = new ApolloClient({
-      link: new HttpLink({
-        uri: `${API_URL}/graphql`,
-      }),
-      cache: cache,
-    });
+    loading = true;
+    error = null;
+    const offset = (currentPage - 1) * limit;
+
     client
       .query({
         query: gql`
@@ -39,19 +42,41 @@
       `,
       })
       .then((data) => {
-        stories = data.data.topStories;
+        const fetched = data.data?.topStories ?? [];
+
+        if (fetched.length === 0 && currentPage > 1) {
+          currentPage -= 1;
+          hasNextPage = false;
+          return;
+        }
+
+        stories = fetched;
+        hasNextPage = fetched.length >= limit;
+      })
+      .catch((err) => {
+        error = err?.message ?? "Failed to load stories";
+      })
+      .finally(() => {
+        loading = false;
       });
   }
 
   fetchStories();
 
   function next() {
+    if (!hasNextPage || loading) {
+      return;
+    }
     currentPage += 1;
     fetchStories();
   }
 
   function prev() {
+    if (currentPage === 1 || loading) {
+      return;
+    }
     currentPage -= 1;
+    hasNextPage = true;
     fetchStories();
   }
 
@@ -61,19 +86,38 @@
 </script>
 
 <div class="thn-stories">
-  {#if stories.length == 0}
+  {#if loading && stories.length === 0}
     <div class="alert alert-info">
       <span class="loading"></span>
       Loading...
     </div>
+  {:else if error && stories.length === 0}
+    <div class="alert alert-error">
+      {error}
+      <button class="btn btn-default" on:click={fetchStories}>Retry</button>
+    </div>
   {:else}
+    {#if loading}
+      <div class="alert alert-info thn-loading-banner">
+        <span class="loading"></span>
+        Loading...
+      </div>
+    {/if}
+
+    {#if error}
+      <div class="alert alert-error">
+        {error}
+        <button class="btn btn-default" on:click={fetchStories}>Retry</button>
+      </div>
+    {/if}
+
     <ul>
       {#each stories as story (story.id)}
         {#if story.type !== "job"}
           <li>
             <div>
               <p>
-                {story.title}{#if story.url }: <a href={story.url} target="_blank">{story.url}</a>{/if}
+                {story.title}{#if story.url }: <a href={story.url} target="_blank" rel="noopener noreferrer">{story.url}</a>{/if}
               </p>
             </div>
             <div>
@@ -81,7 +125,8 @@
                 {story.score} points |
                 <a
                   href="https://news.ycombinator.com/item?id={story.id}"
-                  target="_blank">Comments ↗</a
+                  target="_blank"
+                  rel="noopener noreferrer">Comments ↗</a
                 >
                 |
                 <time datetime={story.time}>Time: {convertToDateTime(story.time)}</time>
@@ -91,15 +136,20 @@
         {/if}
       {/each}
     </ul>
-    <div class="thn-bottom-bar">
-      <Footer />
-      <div class="btn-group thn-pagination">
-        {#if currentPage != 1}
-          <button class="btn btn-primary btn-ghost" on:click={prev}>«</button>
-        {/if}
-        <button class="btn btn-default btn-ghost disabled">{currentPage}</button>
-        <button class="btn btn-primary btn-ghost" on:click={next}>»</button>
+
+    {#if !loading}
+      <div class="thn-bottom-bar">
+        <Footer />
+        <div class="btn-group thn-pagination">
+          {#if currentPage != 1}
+            <button class="btn btn-primary btn-ghost" on:click={prev}>«</button>
+          {/if}
+          <button class="btn btn-default btn-ghost disabled">{currentPage}</button>
+          {#if hasNextPage}
+            <button class="btn btn-primary btn-ghost" on:click={next}>»</button>
+          {/if}
+        </div>
       </div>
-    </div>
+    {/if}
   {/if}
 </div>
