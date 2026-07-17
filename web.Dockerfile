@@ -14,7 +14,9 @@ FROM nginx:alpine
 
 LABEL org.opencontainers.image.source https://github.com/xuqingfeng/TopHackerNews
 
-HEALTHCHECK --interval=1m --timeout=5s \
-    CMD curl -f http://127.0.0.1/ || exit 1
+RUN apk add --no-cache curl
 
 COPY --from=builder /src/web/dist/ /usr/share/nginx/html/
+
+HEALTHCHECK --interval=1m --timeout=5s --start-period=30s --start-interval=5s --retries=3 \
+    CMD curl -fsS http://127.0.0.1/ || exit 1
