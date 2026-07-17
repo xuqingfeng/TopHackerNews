@@ -30,10 +30,6 @@
     border-bottom: 1px dotted color-mix(in srgb, currentColor 35%, transparent);
 }
 
-/* .thn-stories li:last-child {
-    border-bottom: none;
-} */
-
 .thn-stories li p {
     margin: 0.15em 0;
 }

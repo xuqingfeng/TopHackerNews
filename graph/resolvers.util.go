@@ -5,27 +5,28 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"sync"
+	"time"
 
 	"github.com/xuqingfeng/TopHackerNews/graph/model"
 )
 
 const HN_ITEMS_API = "https://hacker-news.firebaseio.com/v0/item/"
 
-func fetchStoryDetail(id int, r *queryResolver, wg *sync.WaitGroup) error {
+var hnClient = &http.Client{Timeout: 10 * time.Second}
 
-	resp, err := http.Get(HN_ITEMS_API + strconv.Itoa(id) + ".json?print=pretty")
+func fetchStoryDetail(id int) (*model.Story, error) {
+	resp, err := hnClient.Get(HN_ITEMS_API + strconv.Itoa(id) + ".json?print=pretty")
 	if err != nil {
 		log.Printf("err: %v", err)
-		return err
+		return nil, err
 	}
+	defer resp.Body.Close()
+
 	s := new(model.Story)
 	err = json.NewDecoder(resp.Body).Decode(s)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	r.topStories = append(r.topStories, s)
-	wg.Done()
 
-	return nil
+	return s, nil
 }
