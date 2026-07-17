@@ -1,5 +1,6 @@
 <script>
   import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client/core";
+  import Footer from "./Footer.svelte";
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -33,7 +34,6 @@
             title
             type
             url
-            by
           }
         }
       `,
@@ -60,7 +60,7 @@
   }
 </script>
 
-<div>
+<div class="thn-stories">
   {#if stories.length == 0}
     <div class="alert alert-info">
       <span class="loading"></span>
@@ -77,15 +77,11 @@
               </p>
             </div>
             <div>
-              <p>
-                By: <a
-                  href="https://news.ycombinator.com/user?id={story.by}"
-                  target="_blank">{story.by} ↗</a
-                >
-                |
+              <p class="thn-meta">
+                {story.score} points |
                 <a
                   href="https://news.ycombinator.com/item?id={story.id}"
-                  target="_blank">comments ↗</a
+                  target="_blank">Comments ↗</a
                 >
                 |
                 <time datetime={story.time}>Time: {convertToDateTime(story.time)}</time>
@@ -95,12 +91,15 @@
         {/if}
       {/each}
     </ul>
-    <div class="btn-group thn-btn">
-      {#if currentPage != 1}
-        <button class="btn btn-primary btn-ghost" on:click={prev}>«</button>
-      {/if}
-      <button class="btn btn-default btn-ghost disabled">{currentPage}</button>
-      <button class="btn btn-primary btn-ghost" on:click={next}>»</button>
+    <div class="thn-bottom-bar">
+      <Footer />
+      <div class="btn-group thn-pagination">
+        {#if currentPage != 1}
+          <button class="btn btn-primary btn-ghost" on:click={prev}>«</button>
+        {/if}
+        <button class="btn btn-default btn-ghost disabled">{currentPage}</button>
+        <button class="btn btn-primary btn-ghost" on:click={next}>»</button>
+      </div>
     </div>
   {/if}
 </div>

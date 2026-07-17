@@ -1,52 +1,26 @@
 <script>
   const WEB_URL = import.meta.env.VITE_WEB_URL;
   const THEME_NAME = "theme";
+  const THEMES = ["light", "dark", "dark-grey", "solarized-dark"];
+  const THEME_BODY_CLASSES = {
+    light: [],
+    dark: ["dark"],
+    "dark-grey": ["dark-grey"],
+    "solarized-dark": ["solarized-dark"],
+  };
+
   const storedTheme = localStorage.getItem(THEME_NAME);
-  changeTheme(storedTheme);
+  let currentTheme = THEMES.includes(storedTheme) ? storedTheme : "light";
+  applyTheme(currentTheme);
 
-  // TODO: find a native 'svelte' way to handle this
-  function changeTheme(theme) {
-    switch (theme) {
-      case "light":
-        document.body.classList.remove("dark");
-        document.body.classList.remove("dark-grey");
-        document.body.classList.remove("solarized-dark");
-        document.body.classList.remove("standard");
-
-        localStorage.setItem(THEME_NAME, theme);
-        break;
-      case "dark":
-        document.body.classList.add("dark");
-        document.body.classList.remove("dark-grey");
-        document.body.classList.remove("solarized-dark");
-        document.body.classList.remove("standard");
-
-        localStorage.setItem(THEME_NAME, theme);
-        break;
-      case "dark-grey":
-        document.body.classList.add("dark-grey");
-        document.body.classList.remove("dark");
-        document.body.classList.remove("solarized-dark");
-        document.body.classList.remove("standard");
-
-        localStorage.setItem(THEME_NAME, theme);
-        break;
-      case "solarized-dark":
-        document.body.classList.add("solarized-dark");
-        document.body.classList.remove("dark");
-        document.body.classList.remove("dark-grey");
-        document.body.classList.remove("standard");
-
-        localStorage.setItem(THEME_NAME, theme);
-        break;
-      default:
-        document.body.classList.remove("dark");
-        document.body.classList.remove("dark-grey");
-        document.body.classList.remove("solarized-dark");
-        document.body.classList.remove("standard");
-
-        localStorage.setItem(THEME_NAME, "light");
+  function applyTheme(theme) {
+    const resolved = THEMES.includes(theme) ? theme : "light";
+    document.body.classList.remove("dark", "dark-grey", "solarized-dark", "standard");
+    for (const cls of THEME_BODY_CLASSES[resolved]) {
+      document.body.classList.add(cls);
     }
+    localStorage.setItem(THEME_NAME, resolved);
+    currentTheme = resolved;
   }
 </script>
 
@@ -54,9 +28,18 @@
   <h1>
     <a href={WEB_URL}>TopHackerNews</a>
   </h1>
-  <a on:click={() => changeTheme("light")}>light</a>
-  <a on:click={() => changeTheme("dark")}>dark</a>
-  <a on:click={() => changeTheme("dark-grey")}>dark-grey</a>
-  <a on:click={() => changeTheme("solarized-dark")}>solarized-dark</a>
+  <div class="btn-group theme-switcher">
+    {#each THEMES as theme}
+      <button
+        type="button"
+        class="btn btn-ghost"
+        class:btn-primary={currentTheme === theme}
+        class:btn-default={currentTheme !== theme}
+        on:click={() => applyTheme(theme)}
+      >
+        {theme}
+      </button>
+    {/each}
+  </div>
   <hr>
 </div>
