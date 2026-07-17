@@ -80,6 +80,15 @@
     fetchStories();
   }
 
+  function first() {
+    if (currentPage === 1 || loading) {
+      return;
+    }
+    currentPage = 1;
+    hasNextPage = true;
+    fetchStories();
+  }
+
   function convertToDateTime(time) {
     return new Date(time * 1000).toLocaleString();
   }
@@ -141,8 +150,11 @@
       <div class="thn-bottom-bar">
         <Footer />
         <div class="btn-group thn-pagination">
+          {#if currentPage > 2}
+            <button class="btn btn-primary btn-ghost" on:click={first} title="First page">««</button>
+          {/if}
           {#if currentPage != 1}
-            <button class="btn btn-primary btn-ghost" on:click={prev}>«</button>
+            <button class="btn btn-primary btn-ghost" on:click={prev} title="Previous page">«</button>
           {/if}
           <button class="btn btn-default btn-ghost disabled">{currentPage}</button>
           {#if hasNextPage}
