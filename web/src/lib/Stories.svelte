@@ -135,10 +135,10 @@
                 <a
                   href="https://news.ycombinator.com/item?id={story.id}"
                   target="_blank"
-                  rel="noopener noreferrer">Comments ↗</a
+                  rel="noopener noreferrer">comments ↗</a
                 >
                 |
-                <time datetime={story.time}>Time: {convertToDateTime(story.time)}</time>
+                <time datetime={story.time}>created at: {convertToDateTime(story.time)}</time>
               </p>
             </div>
           </li>
